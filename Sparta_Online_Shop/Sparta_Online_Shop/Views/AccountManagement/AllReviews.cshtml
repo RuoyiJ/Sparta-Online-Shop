@@ -1,0 +1,15 @@
+﻿@model List<ProductReview>
+
+@{
+    ViewBag.Title = "User Reviews";
+}
+
+<!--Render UserReviews As Partial View-->
+<div style="width:80%; margin:60px auto; text-align:left">
+    <h1 style="padding-top:50px; color: #c41541; font-weight: bold;">
+        My Reviews
+    </h1>
+    @{
+        Html.RenderAction("UserReviews", "Reviews");
+    }
+</div>
