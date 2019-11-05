@@ -1,12 +1,3 @@
-use master 
-go
-
-drop database if exists SpartaShop
-go
-
-create database SpartaShop
-go
-
 use SpartaShop
 go
 
@@ -52,7 +43,7 @@ create table Orders(
 	OrderID int not null identity primary key, 
 	UserID int null foreign key references Users(UserID),
 	OrderStatusID int null foreign key references OrderStatus(OrderStatusID), 
-	TotalCost decimal(10, 2) null, 
+	TotalCost decimal(10,2) null, 
 	OrderDate DateTime not null,
 	ShipDate DateTime null
 );
@@ -66,7 +57,7 @@ create table Products(
 	ProductName nvarchar(100),
 	ProductDescription varchar(MAX) null, 
 	Stock int null, 
-	Price decimal(10, 2) not null
+	Price decimal(10,2) not null
 );
 
 drop table if exists OrderDetails
@@ -75,7 +66,7 @@ create table OrderDetails(
 	OrderDetailID int not null identity primary key,
 	OrderID int null foreign key references Orders(OrderID),
 	ProductID int null foreign key references Products(ProductID),
-	ProductPrice decimal(10, 2) not null,
+	ProductPrice decimal(10,2) not null,
 	Quantity int null
 );
 
@@ -118,6 +109,24 @@ CREATE TABLE Creators(
     Description VARCHAR(MAX) NULL,
     GitHubLink NVARCHAR(MAX) NULL,
     Website NVARCHAR(MAX) NULL
+);
+
+drop table if exists PaymentTypes
+go
+CREATE TABLE PaymentTypes(
+	PaymentTypeID INT NOT NULL IDENTITY PRIMARY KEY,
+	PaymentName NVARCHAR(50) NULL
+);
+
+drop table if exists PayPalTransactions
+go
+CREATE TABLE PayPalTransactions(
+	PayPalTransactionID INT NOT NULL IDENTITY PRIMARY KEY,
+	PaymentTypeID INT NULL FOREIGN KEY REFERENCES PaymentTypes(PaymentTypeID),
+	OrderID INT NOT NULL FOREIGN KEY REFERENCES Orders(OrderID),
+	PayPalOrderID NVARCHAR(100) NOT NULL,
+	Amount DECIMAL(10,2) NOT NULL,
+	CaptureID NVARCHAR(100) NOT NULL,
 );
 
 
